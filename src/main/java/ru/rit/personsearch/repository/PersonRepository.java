@@ -1,6 +1,5 @@
 package ru.rit.personsearch.repository;
 
-import ru.rit.personsearch.model.Person;
 import ru.rit.personsearch.to.PersonTo;
 
 import java.util.List;
