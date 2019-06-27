@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class JdbcPersonRepository implements PersonRepository {
     private final SqlHelper sqlHelper;
 
-    private final String commonQuery = "select p.id, p.first_name, p.last_name, p.patronymic, ca.model, ca.license, ci.city_name from persons p join cars ca on p.id = ca.person_id join cities ci on p.city_id = ci.id";
+    private final String commonQuery = "select p.id, p.first_name, p.last_name, p.patronymic, ca.model, ca.license, ci.city_name from persons p left outer join cars ca on p.id = ca.person_id join cities ci on p.city_id = ci.id";
 
     public JdbcPersonRepository(String dbUrl, String dbUser, String dbPassword) {
         try {
@@ -32,7 +32,8 @@ public class JdbcPersonRepository implements PersonRepository {
         StringBuilder stringBuilder = new StringBuilder(commonQuery + " where ");
         Iterator<String> iterator = requestParams.keySet().iterator();
         while (iterator.hasNext()) {
-            stringBuilder.append(iterator.next() + " = ?");
+            stringBuilder.append(iterator.next());
+            stringBuilder.append(" = ?");
             if (iterator.hasNext()) {
                 stringBuilder.append(" and ");
             }

@@ -6,7 +6,7 @@
   Time: 17:41
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
     <head>
         <title>Поиск человека</title>
@@ -23,16 +23,14 @@
             <button type="submit">Найти</button>
         </form>
 
-
-
         <table border="1" cellpadding="8" cellspacing="0">
             <thead>
             <tr>
                 <th>Имя</th>
                 <th>Фамилия</th>
                 <th>Отчество</th>
-                <th></th>
-                <th></th>
+                <th>Город</th>
+                <th>Автомобиль</th>
             </tr>
             </thead>
             <c:forEach items="${persons}" var="person">
@@ -44,6 +42,13 @@
                     <td>${person.city.name}</td>
                     <td>
                         <table>
+                            <c:if test="${person.cars.size() == 0}">
+                                <tr>
+                                    <td>
+                                        Нет автомобиля
+                                    </td>
+                                </tr>
+                            </c:if>
                             <c:forEach items="${person.cars}" var="car">
                                 <jsp:useBean id="car" type="ru.rit.personsearch.model.Car"/>
                                 <tr>
@@ -56,13 +61,5 @@
                 </tr>
             </c:forEach>
         </table>
-
-
-
-
-
-
-
-
     </body>
 </html>
