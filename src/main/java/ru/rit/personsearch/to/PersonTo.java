@@ -1,0 +1,62 @@
+package ru.rit.personsearch.to;
+
+import ru.rit.personsearch.model.Car;
+import ru.rit.personsearch.model.City;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+public class PersonTo {
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String patronymic;
+    private City city;
+    private Set<Car> cars;
+
+    public PersonTo(int id, String firstName, String lastName, String patronymic) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.cars = new HashSet<>();
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public void addCar (Car car) {
+        this.cars.add(car);
+    }
+
+    @Override
+    public String toString() {
+        return "PersonTo{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", city=" + city +
+                ", cars=" + cars +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonTo personTo = (PersonTo) o;
+        return firstName.equals(personTo.firstName) &&
+                lastName.equals(personTo.lastName) &&
+                patronymic.equals(personTo.patronymic) &&
+                city.equals(personTo.city) &&
+                cars.equals(personTo.cars);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, patronymic, city, cars);
+    }
+}

@@ -1,16 +1,16 @@
-DROP TABLE IF EXISTS cities;
 DROP TABLE IF EXISTS cars;
 DROP TABLE IF EXISTS persons;
-DROP SEQUENCE IF EXISTS global_seq;
+DROP TABLE IF EXISTS cities;
+DROP SEQUENCE IF EXISTS global_seq CASCADE;
 
 CREATE SEQUENCE global_seq START WITH 100000;
 
 CREATE TABLE cities
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name             VARCHAR                 NOT NULL
+    city_name        VARCHAR                 NOT NULL
 );
-CREATE UNIQUE INDEX cities_unique_name_idx ON cities (name);
+CREATE UNIQUE INDEX cities_unique_name_idx ON cities (city_name);
 
 CREATE TABLE persons
 (

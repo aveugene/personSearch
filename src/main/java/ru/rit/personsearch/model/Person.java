@@ -6,8 +6,12 @@ public class Person {
     private String firstName;
     private String lastName;
     private String patronymic;
-    private City city;
-    private Set<Car> cars;
+
+    public Person(String firstName, String lastName, String patronymic) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -33,19 +37,8 @@ public class Person {
         this.patronymic = patronymic;
     }
 
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    public Set<Car> getCars() {
-        return cars;
-    }
-
-    public void setCars(Set<Car> cars) {
-        this.cars = cars;
+    @Override
+    public String toString() {
+        return "Имя: " + firstName + "\tФамилия: " + lastName + "\tОтчество: " + patronymic;
     }
 }
