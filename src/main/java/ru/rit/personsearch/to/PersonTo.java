@@ -10,6 +10,31 @@ import java.util.Set;
 public class PersonTo {
     private int id;
     private String firstName;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public Set<Car> getCars() {
+        return cars;
+    }
+
     private String lastName;
     private String patronymic;
     private City city;
