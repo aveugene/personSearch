@@ -1,6 +1,6 @@
 package ru.rit.personsearch.repository;
 
-import ru.rit.personsearch.exception.NotExistStorageException;
+import ru.rit.personsearch.exception.NotExistPersonException;
 import ru.rit.personsearch.model.Car;
 import ru.rit.personsearch.model.City;
 import ru.rit.personsearch.to.PersonTo;
@@ -41,11 +41,13 @@ public class JdbcPersonRepository implements PersonRepository {
         return sqlHelper.queryExecute(stringBuilder.toString(),
                 preparedStatement -> {
                     int i=1;
+                    System.out.println(stringBuilder.toString());
                     for (String value : requestParams.values()) {
                         System.out.println(i + " " + value);
                         preparedStatement.setString(i, value);
                         i++;
                     }
+                    System.out.println(preparedStatement);
                     return getPersons(preparedStatement);
                 });
     }
@@ -59,7 +61,7 @@ public class JdbcPersonRepository implements PersonRepository {
         ResultSet resultSet = preparedStatement.executeQuery();
         Map<String, PersonTo> personMap = new ConcurrentHashMap<>();
 
-        if (!resultSet.next()) throw new NotExistStorageException("Клемент");
+        if (!resultSet.next()) return new ArrayList<>();
 
         do {
             PersonTo personTo = new PersonTo(

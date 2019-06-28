@@ -29,12 +29,11 @@ public class PersonSearchServlet extends HttpServlet {
         switch (action == null ? "" : action) {
             case "search":
                 Map<String, String> requestParams = new TreeMap<>();
-                String firstName = req.getParameter("first_name");
-                String lastName = req.getParameter("last_name");
-                String patronymic = req.getParameter("patronymic");
-                requestParams.put("first_name", firstName);
-                requestParams.put("last_name", lastName);
-                requestParams.put("patronymic", patronymic);
+                req.getParameterMap().forEach((paramName, paramValueArray) -> {
+                    if (!paramValueArray[0].equals("") && !paramName.equals("action")) {
+                        requestParams.put(paramName, paramValueArray[0]);
+                    }
+                });
                 req.setAttribute("persons", personRepository.get(requestParams));
                 req.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(req, resp);
                 break;
@@ -45,10 +44,5 @@ public class PersonSearchServlet extends HttpServlet {
             default:
                 req.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(req, resp);
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
     }
 }
