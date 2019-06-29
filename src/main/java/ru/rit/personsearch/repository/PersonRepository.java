@@ -1,12 +1,12 @@
 package ru.rit.personsearch.repository;
 
-import ru.rit.personsearch.to.PersonTo;
+import ru.rit.personsearch.model.Person;
 
 import java.util.List;
 import java.util.Map;
 
 public interface PersonRepository {
-    List<PersonTo> get(Map<String, String> requestParams);
+    List<Person> get(Map<String, String> requestParams);
 
-    List<PersonTo> getAll();
+    List<Person> getAll();
 }

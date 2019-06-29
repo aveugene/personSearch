@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import ru.rit.personsearch.Config;
 import ru.rit.personsearch.repository.JdbcPersonRepository;
 import ru.rit.personsearch.repository.PersonRepository;
-import ru.rit.personsearch.to.PersonTo;
+import ru.rit.personsearch.model.Person;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -49,9 +49,9 @@ public class PersonSearchServlet extends HttpServlet {
         }
     }
 
-    private void sendResponse(HttpServletResponse resp, List<PersonTo> personTos) throws IOException {
+    private void sendResponse(HttpServletResponse resp, List<Person> people) throws IOException {
         Gson gson = new Gson();
-        String json = gson.toJson(personTos);
+        String json = gson.toJson(people);
         resp.setContentType("application/json; charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();

@@ -3,7 +3,7 @@ package ru.rit.personsearch.repository;
 import org.slf4j.Logger;
 import ru.rit.personsearch.model.Car;
 import ru.rit.personsearch.model.City;
-import ru.rit.personsearch.to.PersonTo;
+import ru.rit.personsearch.model.Person;
 import ru.rit.personsearch.util.SqlHelper;
 
 import java.sql.DriverManager;
@@ -38,7 +38,7 @@ public class JdbcPersonRepository implements PersonRepository {
     }
 
     @Override
-    public List<PersonTo> get(Map<String, String> requestParams) {
+    public List<Person> get(Map<String, String> requestParams) {
         StringBuilder stringBuilder = new StringBuilder(commonQuery + " where ");
         Iterator<String> iterator = requestParams.keySet().iterator();
         while (iterator.hasNext()) {
@@ -61,24 +61,24 @@ public class JdbcPersonRepository implements PersonRepository {
     }
 
     @Override
-    public List<PersonTo> getAll() {
+    public List<Person> getAll() {
         return sqlHelper.queryExecute(commonQuery, this::getPersons);
     }
 
-    private ArrayList<PersonTo> getPersons(PreparedStatement preparedStatement) throws SQLException {
+    private ArrayList<Person> getPersons(PreparedStatement preparedStatement) throws SQLException {
         ResultSet resultSet = preparedStatement.executeQuery();
-        Map<String, PersonTo> personMap = new ConcurrentHashMap<>();
+        Map<String, Person> personMap = new ConcurrentHashMap<>();
 
         if (!resultSet.next()) return new ArrayList<>();
 
         do {
-            PersonTo personTo = new PersonTo(
+            Person person = new Person(
                     Integer.parseInt(resultSet.getString("id")),
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name"),
                     resultSet.getString("patronymic"));
-            personTo.setCity(new City(resultSet.getString("city_name")));
-            personMap.putIfAbsent(resultSet.getString("id"), personTo);
+            person.setCity(new City(resultSet.getString("city_name")));
+            personMap.putIfAbsent(resultSet.getString("id"), person);
             personMap
                     .get(resultSet.getString("id"))
                     .addCar(new Car(resultSet.getString("model"), resultSet.getString("license")));
