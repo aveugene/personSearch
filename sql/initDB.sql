@@ -1,3 +1,12 @@
+
+CREATE DATABASE persons
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+
 DROP TABLE IF EXISTS cars;
 DROP TABLE IF EXISTS persons;
 DROP TABLE IF EXISTS cities;
