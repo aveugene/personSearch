@@ -29,10 +29,10 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car{" +
-                "model='" + model + '\'' +
-                ", license='" + license + '\'' +
-                '}';
+        return "{"
+                + "                        \"model\":\"" + model + "\""
+                + ",                         \"license\":\"" + license + "\""
+                + "}";
     }
 
     @Override

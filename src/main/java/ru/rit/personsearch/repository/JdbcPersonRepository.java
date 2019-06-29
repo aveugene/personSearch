@@ -1,6 +1,6 @@
 package ru.rit.personsearch.repository;
 
-import ru.rit.personsearch.exception.NotExistPersonException;
+import org.slf4j.Logger;
 import ru.rit.personsearch.model.Car;
 import ru.rit.personsearch.model.City;
 import ru.rit.personsearch.to.PersonTo;
@@ -10,18 +10,28 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class JdbcPersonRepository implements PersonRepository {
+    private static final Logger log = getLogger(JdbcPersonRepository.class);
     private final SqlHelper sqlHelper;
 
-    private final String commonQuery = "select p.id, p.first_name, p.last_name, p.patronymic, ca.model, ca.license, ci.city_name from persons p left outer join cars ca on p.id = ca.person_id join cities ci on p.city_id = ci.id";
+    private final String commonQuery = "select p.id, p.first_name, p.last_name, p.patronymic, ca.model, ca.license, ci.city_name " +
+            "from persons p " +
+            "left outer join cars ca on p.id = ca.person_id " +
+            "join cities ci on p.city_id = ci.id";
 
     public JdbcPersonRepository(String dbUrl, String dbUser, String dbPassword) {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
+            log.debug("No postgres driver found.");
             throw new IllegalStateException(e);
         }
         sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
@@ -32,22 +42,20 @@ public class JdbcPersonRepository implements PersonRepository {
         StringBuilder stringBuilder = new StringBuilder(commonQuery + " where ");
         Iterator<String> iterator = requestParams.keySet().iterator();
         while (iterator.hasNext()) {
+            stringBuilder.append("upper(");
             stringBuilder.append(iterator.next());
-            stringBuilder.append(" = ?");
+            stringBuilder.append(") like ?");
             if (iterator.hasNext()) {
                 stringBuilder.append(" and ");
             }
         }
         return sqlHelper.queryExecute(stringBuilder.toString(),
                 preparedStatement -> {
-                    int i=1;
-                    System.out.println(stringBuilder.toString());
+                    int i = 1;
                     for (String value : requestParams.values()) {
-                        System.out.println(i + " " + value);
-                        preparedStatement.setString(i, value);
-                        i++;
+                        preparedStatement.setString(i++, value.toUpperCase() + "%");
                     }
-                    System.out.println(preparedStatement);
+                    log.debug("Query string: " + preparedStatement);
                     return getPersons(preparedStatement);
                 });
     }
@@ -75,6 +83,8 @@ public class JdbcPersonRepository implements PersonRepository {
                     .get(resultSet.getString("id"))
                     .addCar(new Car(resultSet.getString("model"), resultSet.getString("license")));
         } while (resultSet.next());
+
+        log.debug("Found " + personMap.values().size() + " values in database.");
 
         return new ArrayList<>(personMap.values());
     }

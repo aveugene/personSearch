@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск человека</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/search.js"></script>
+</head>
+<body>
+<h3>Регистронезависимый поиск с начала строки.</h3>
+<dl>
+    <dd><label for="first_name">Имя</label><input type="text" class="searchparam" id="first_name" value=""></dd>
+</dl>
+<dl>
+    <dd><label for="last_name">Фамилия</label><input type="text" class="searchparam" id="last_name" value=""></dd>
+</dl>
+<dl>
+    <dd><label for="patronymic">Отчество</label><input type="text" class="searchparam" id="patronymic" value=""></dd>
+</dl>
+<dl>
+    <dd><label for="city_name">Город</label><input type="text" class="searchparam" id="city_name" value=""></dd>
+</dl>
+<dl>
+    <dd><label for="model">Автомобиль</label><input type="text" class="searchparam" id="model" value=""></dd>
+</dl>
+<dl>
+    <dd><label for="license">Госномер</label><input type="text" class="searchparam" id="license" value=""></dd>
+</dl>
+<button type="submit" id="search">Найти</button>
+<hr>
+<button type="submit" id="showall">Показать всех</button>
+<hr>
+<div id="result"></div>
+
+
+</body>
+</html>

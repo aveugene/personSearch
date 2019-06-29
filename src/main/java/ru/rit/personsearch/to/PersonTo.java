@@ -58,14 +58,13 @@ public class PersonTo {
 
     @Override
     public String toString() {
-        return "PersonTo{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", patronymic='" + patronymic + '\'' +
-                ", city=" + city +
-                ", cars=" + cars +
-                '}';
+        return "{\"" + id + "\":{"
+                + "    \"first_name\":\"" + firstName + "\""
+                + ",   \"last_name\":\"" + lastName + "\""
+                + ",   \"patronymic\":\"" + patronymic + "\""
+                + ",   \"city_name\":" + city
+                + ",   \"cars\":" + cars
+                + "}}";
     }
 
     @Override
